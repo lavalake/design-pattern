@@ -1,0 +1,338 @@
+https://www.javacodegeeks.com/2012/07/builder-design-pattern-in-java.html
+Got it!
+We use cookies to ensure that we give you the best experience on our website. If you continue to use this site, you agree to our use of cookies More info
+Cookie Consent plugin for the EU cookie law
+
+
+Search...
+Knowledge Base Resources DealsJob Board Join Us About
+ Java Code Geeks
+
+Android Java JVM Languages Software DevelopmentAgileCareerCommunicationsDevOpsMeta JCG
+Home » Java » Core Java » Builder Design pattern in Java
+About Javin Paul
+
+
+Builder Design pattern in Java
+Posted by: Javin Paul  in Core Java July 12th, 2012
+
+
+Builder design pattern in Java is a creational pattern i.e. used to create objects, similar to factory method design pattern which is also creational design pattern. Before learning any design pattern I suggest find out the problem a particular design pattern solves. Its been well said necessity is mother on invention. learning design pattern without facing problem is not that effective, Instead if you have already faced issues than its much easier to understand design pattern and learn how its solve the issue. In this Java design pattern tutorial we will first see what problem Builder design pattern solves which will give some insight on when to use builder design pattern in Java, which is also a popular design pattern interview question and then we will see example of Builder design pattern and pros and cons of using Builder pattern in Java.
+What problem Builder pattern solves in Java
+As I said earlier Builder pattern is a creational design pattern it means its solves problem related to object creation. Constructors in Java are used to create object and can take parameters required to create object. Problem starts when an Object can be created with lot of parameters, some of them may be mandatory and others may be optional. Consider a class which is used to create Cake , now you need number of item like egg , milk , flour to create cake. many of them are mandatory and some of them are optional like cherry , fruits etc. If we are going to have overloaded constructor for different kind of cake then there will be many constructor and even worst they will accept many parameter.
+Problems:
+1) too many constructors to maintain.
+2) error prone because many fields has same type e.g. sugar and and butter are in cups so instead of 2 cup sugar if you pass 2 cup butter, your compiler will not complain but will get a buttery cake with almost no sugar with high cost of wasting butter.
+You can partially solve this problem by creating Cake and then adding ingredients but that will impose another problem of leaving Object on inconsistent state during building, ideally cake should not be available until its created. Both of these problem can be solved by using Builder design pattern in Java. Builder design pattern not only improves readability but also reduces chance of error by adding ingredients explicitly and making object available once fully constructed.
+By the way there are many design pattern tutorial already there in Javarevisited like Decorator pattern tutorial and Observer pattern in Java. If you haven’t read them already then its worth looking.
+Example of Builder Design pattern in Java
+We will use same example of creating Cake using Builder design pattern in Java. here we have static nested builder class inside Cake which is used to create object.
+Guidelines for Builder design pattern in Java
+1) Make a static nested class called Builder inside the class whose object will be build by Builder . In this example its Cake .
+2) Builder class will have exactly same set of fields as original class. 3) Builder class will expose method for adding ingredients e.g. sugar() in this example. each method will return same Builder object. Builder will be enriched with each method call.
+4) Builder.build() method will copy all builder field values into actual class and return object of Item class.
+5) Item class (class for which we are creating Builder) should have private constructor to create its object from build() method and prevent outsider to access its constructor.
+01
+public class BuilderPatternExample {
+02
+   
+03
+    public static void main(String args[]) {
+04
+       
+05
+        //Creating object using Builder pattern in java
+06
+        Cake whiteCake = new Cake.Builder().sugar(1).butter(0.5).  eggs(2).vanila(2).flour(1.5). bakingpowder(0.75).milk(0.5).build();
+07
+       
+08
+        //Cake is ready to eat :)
+09
+        System.out.println(whiteCake);
+10
+    }
+11
+}
+12
+ 
+13
+class Cake {
+14
+ 
+15
+    private final double sugar;   //cup
+16
+    private final double butter;  //cup
+17
+    private final int eggs;
+18
+    private final int vanila;     //spoon
+19
+    private final double flour;   //cup
+20
+    private final double bakingpowder; //spoon
+21
+    private final double milk;  //cup
+22
+    private final int cherry;
+23
+ 
+24
+    public static class Builder {
+25
+ 
+26
+        private double sugar;   //cup
+27
+        private double butter;  //cup
+28
+        private int eggs;
+29
+        private int vanila;     //spoon
+30
+        private double flour;   //cup
+31
+        private double bakingpowder; //spoon
+32
+        private double milk;  //cup
+33
+        private int cherry;
+34
+ 
+35
+        //builder methods for setting property
+36
+        public Builder sugar(double cup){this.sugar = cup; return this; }
+37
+        public Builder butter(double cup){this.butter = cup; return this; }
+38
+        public Builder eggs(int number){this.eggs = number; return this; }
+39
+        public Builder vanila(int spoon){this.vanila = spoon; return this; }
+40
+        public Builder flour(double cup){this.flour = cup; return this; }
+41
+        public Builder bakingpowder(double spoon){this.sugar = spoon; return this; }
+42
+        public Builder milk(double cup){this.milk = cup; return this; }
+43
+        public Builder cherry(int number){this.cherry = number; return this; }
+44
+       
+45
+       
+46
+        //return fully build object
+47
+        public Cake build() {
+48
+            return new Cake(this);
+49
+        }
+50
+    }
+51
+ 
+52
+    //private constructor to enforce object creation through builder
+53
+    private Cake(Builder builder) {
+54
+        this.sugar = builder.sugar;
+55
+        this.butter = builder.butter;
+56
+        this.eggs = builder.eggs;
+57
+        this.vanila = builder.vanila;
+58
+        this.flour = builder.flour;
+59
+        this.bakingpowder = builder.bakingpowder;
+60
+        this.milk = builder.milk;
+61
+        this.cherry = builder.cherry;      
+62
+    }
+63
+ 
+64
+    @Override
+65
+    public String toString() {
+66
+        return "Cake{" + "sugar=" + sugar + ", butter=" + butter + ", eggs=" + eggs + ", vanila=" + vanila + ", flour=" + flour + ", bakingpowder=" + bakingpowder + ", milk=" + milk + ", cherry=" + cherry + '}';
+67
+ 
+68
+    }
+69
+   
+70
+}
+Output:
+1
+Cake{sugar=0.75, butter=0.5, eggs=2, vanila=2, flour=1.5, bakingpowder=0.0, milk=0.5, cherry=0}
+Builder design pattern in Java – Pros and Cons
+ Live everything Builder pattern also has some disadvantages, but if you look at below, advantages clearly outnumber disadvantages of Builder design pattern. Any way here are few advantages and disadvantage of Builder design pattern for creating objects in Java.
+Advantages:
+1) more maintainable if number of fields required to create object is more than 4 or 5.
+
+
+2) less error-prone as user will know what they are passing because of explicit method call. 
+
+
+3) more robust as only fully constructed object will be available to client.
+Disadvantages: 1) verbose and code duplication as Builder needs to copy all fields from Original or Item class.
+When to use Builder Design pattern in Java Builder Design pattern is a creational pattern and should be used when number of parameter required in constructor is more than manageable usually 4 or at most 5. Don’t confuse with Builder and Factory pattern there is an obvious difference between Builder and Factory pattern, as Factory can be used to create different implementation of same interface but Builder is tied up with its Container class and only returns object of Outer class.
+That’s all on Builder design pattern in Java. we have seen why we need Builder pattern , what problem it solves, Example of builder design pattern in Java and finally when to use Builder patter with pros and cons. So if you are not using telescoping constructor pattern or have a choice not to use it than Builder pattern is way to go.
+  
+Reference: Builder Design pattern in Java – Example Tutorial from our JCG partner Javin Paul at the Javarevisited blog.
+Tagged with: DESIGN PATTERNS
+
+Do you want to know how to develop your skillset to become a Java Rockstar?
+Subscribe to our newsletter to start Rocking right now!
+To get you started we give you our best selling eBooks for FREE!
+ 
+1. JPA Mini Book
+2. JVM Troubleshooting Guide
+3. JUnit Tutorial for Unit Testing
+4. Java Annotations Tutorial
+5. Java Interview Questions
+6. Spring Interview Questions
+7. Android UI Design
+ 
+and many more ....
+ 
+Email address:
+
+Your email address
+ 
+Sign up
+
+6 COMMENTS
+
+
+John Casey
+July 12th, 2012 at 5:33 pm
+Another important advantage this approach gives is the ability to protect read-only fields as final. Rather than using a manageable – but incomplete – constructor and a series of setters or something like that, you can use a builder and configure that via successive method calls…then have it render a complete and appropriately protected instance of your class.
+
+Another nice thing about the builder is it can have a fluent api that allows you to chain calls together during setup, making object creation code a lot more readable.
+
+I realize your example encapsulates both of these principles, but IMO these are worth mentioning explicitly, since they’re pretty nice features.
+
+Reply
+
+Greg Brown
+August 20th, 2012 at 4:40 pm
+Agreed – these are definitely two distinct advantages of the builder pattern. I personally like Builder’s ability to generate immutable types, but I’m not a fan fluent API syntax (my builders generally just use regular getters and setters).
+
+Reply
+
+Eric Jablow
+August 21st, 2012 at 4:44 am
+Another advantage is that you can put required parameters into the builder’s constructor. Consider a Name.Builder class. Have a constructor
+
+public class Name {
+public static class Builder {
+public Builder(String givenName, String surName) {…}
+public Builder middleName(String middleName) {this.middleName = middleName;}
+public Builder honorific(String honorific) {this.honorific = honorific;}
+//… abbreviations, generation marks, postnomials, etc.
+}
+}
+
+Add error checking to each of the builder’s methods. The constructor’s parameters should be non-null and non-blank.
+
+There is a rarer alternative. It is actually pretty dangerous, because it breaks equals(Object obj) methods that check for class equality. Use initializer blocks.
+
+Name me = new Name(“Eric”, “Jablow”) {
+{
+setHonorific(“Mr.”); setMiddleName(“Robert”);
+}
+};
+Note that me.getClass() != Name.class.
+The only time one sees this in practice is in code like JMock Expectation objects.
+
+Reply
+
+Pradeep
+August 14th, 2014 at 6:02 am
+Excellent article. One drawback I can think of is, if there are mandatory fields to construct an object then we can acheive it through traditional constructor pattern rather than builder.
+
+Reply
+
+Miles G
+March 13th, 2015 at 1:08 am
+There are a lot of grammar mistakes in this article. Would you like me to proofread it? I’m serious. I’d like for this to be more readable for both myself and others. You have my email. Cheers.
+
+Reply
+
+Tinh Do Xuan
+August 11th, 2015 at 6:59 am
+Thank you for your article,
+I have some exercises related to design pattern and It’s very helpful for me.
+
+Reply
+LEAVE A REPLY
+Your email address will not be published. Required fields are marked *
+
+
+
+Name *
+
+Email *
+
+Website
+
+Sign me up for the newsletter!
+
+ Receive Email Notifications?
+
+Or, you can subscribe without commenting.
+Post Comment
+ 
+
+NEWSLETTER
+172,212 insiders are already enjoying weekly updates and complimentary whitepapers!
+Join them now to gain exclusive access to the latest news in the Java world, as well as insights about Android, Scala, Groovy and other related technologies.
+Email address:
+
+Your email address
+Sign up
+RECENT JOBS
+No job listings found.
+JOIN US
+Join Us With 1,240,600 monthly unique visitors and over 500 authors we are placed among the top Java related sites around. Constantly being on the lookout for partners; we encourage you to join us. So If you have a blog with unique and interesting content then you should check out our JCG partners program. You can also be a guest writer for Java Code Geeks and hone your writing skills!
+
+KNOWLEDGE BASE
+Courses
+Examples
+Resources
+Tutorials
+Whitepapers
+PARTNERS
+Mkyong
+THE CODE GEEKS NETWORK
+.NET Code Geeks
+Java Code Geeks
+System Code Geeks
+Web Code Geeks
+HALL OF FAME
+“Android Full Application Tutorial” series
+11 Online Learning websites that you should check out
+Advantages and Disadvantages of Cloud Computing – Cloud computing pros and cons
+Android Google Maps Tutorial
+Android JSON Parsing with Gson Tutorial
+Android Location Based Services Application – GPS location
+Android Quick Preferences Tutorial
+Difference between Comparator and Comparable in Java
+GWT 2 Spring 3 JPA 2 Hibernate 3.5 Tutorial
+Java Best Practices – Vector vs ArrayList vs HashSet
+ABOUT JAVA CODE GEEKS
+JCGs (Java Code Geeks) is an independent online community focused on creating the ultimate Java to Java developers resource center; targeted at the technical architect, technical team lead (senior developer), project manager and junior developers alike. JCGs serve the Java, SOA, Agile and Telecom communities with daily news written by domain experts, articles, tutorials, reviews, announcements, code snippets and open source projects.
+DISCLAIMER
+All trademarks and registered trademarks appearing on Java Code Geeks are the property of their respective owners. Java is a trademark or registered trademark of Oracle Corporation in the United States and other countries. Examples Java Code Geeks is not connected to Oracle Corporation and is not sponsored by Oracle Corporation.
+Java Code Geeks and all content copyright © 2010-2017, Exelixis Media P.C. | Terms of Use | Privacy Policy | Contact
