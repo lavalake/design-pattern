@@ -1,0 +1,6 @@
+http://stackoverflow.com/questions/3883692/strategy-pattern-vs-command-pattern
+As you can see from the table, a Strategy Pattern object hides details of an algorithm's implementation, so the use of a different strategy object will perform the same functionality but in a different way. Each strategy object might be optimized for a particular factor or operate on some other parameter; and, through the use of a common interface, the context can safely work with either.
+
+The Command Pattern encapsulates a much smaller level of detail than an algorithm. It encodes the details needed to send a message to an object: receiver, selector and arguments. The benefit to objectifying such a tiny part of the process execution is that such messages can be invoked along different points of time or location in a general way without having to hard-code its details. It allows messages to be invoked one or more times, or passed along to different parts of the system or multiple systems without requiring the details of a specific invocation to be known before execution.
+
+As is typical for design patterns, they do not require all implementations to be identical in detail to bear the pattern name. Details can vary in implementation and in what data is encoded in the object versus as method arguments.
