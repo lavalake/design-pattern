@@ -4,3 +4,8 @@ As you can see from the table, a Strategy Pattern object hides details of an alg
 The Command Pattern encapsulates a much smaller level of detail than an algorithm. It encodes the details needed to send a message to an object: receiver, selector and arguments. The benefit to objectifying such a tiny part of the process execution is that such messages can be invoked along different points of time or location in a general way without having to hard-code its details. It allows messages to be invoked one or more times, or passed along to different parts of the system or multiple systems without requiring the details of a specific invocation to be known before execution.
 
 As is typical for design patterns, they do not require all implementations to be identical in detail to bear the pattern name. Details can vary in implementation and in what data is encoded in the object versus as method arguments.
+
+
+Strategies encapsulate algorithms. Commands separate the sender from the receiver of a request, they turn a request into an object.
+
+If it's an algorithm, how something will be done, use a Strategy. If you need to separate the call of a method from its execution use a Command. Commands are often used when you queue up messages for later use, like a task or a transaction.
