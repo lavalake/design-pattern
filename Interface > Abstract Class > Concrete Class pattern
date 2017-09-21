@@ -1,2 +1,4 @@
 https://stackoverflow.com/questions/19789590/interface-abstract-class-concrete-class-pattern
 https://www.javaworld.com/article/2075627/core-java/maximize-flexibility-with-interfaces-and-abstract-classes.html?page=2
+use interface as type polimorpysm and use abstractClass as code reuse. You could chose extend the abstract class and resue the common code
+or you can directly implement the interface for your own implementation.
