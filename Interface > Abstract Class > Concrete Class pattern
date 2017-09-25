@@ -7,3 +7,8 @@ https://blogs.oracle.com/darcy/api-design:-interfaces-versus-abstract-classes
 2. To summarize, an interface is generally the best way to define a type that permits multiple implementations
 As discussed in that item, the ease of evolution of abstract classes comes from the ability to add new methods 
 having "reasonable default implementations" without almost surely causing source of all existing subtypes to no longer compile
+
+3. proxy
+  http://docs.oracle.com/javase/6/docs/api/java/lang/reflect/Proxy.html
+  An additional benefit of interfaces is the ability to use dynamic proxies; one notable use of dynamic proxies is creating
+  the annotation objects returned at runtime by getAnnotation
