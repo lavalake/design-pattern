@@ -4,3 +4,8 @@ adapter class wraps the implementation of another class in the desired interface
 delegation where the delegator is the adapter (or wrapper) and the delegate is the class being adapted.
 Its principal feature is that it provides a way for an object to permit access to its internals in such a way that clients are 
 not coupled to the structure of those internals
+
+usually the adaptor will exptend the target interface and implement the source interface to adapt source to target
+For example, the LinkedList class
+LinkedList<E> extends AbstractSequentiallist<E> implements List<E>, Deque<E>, Queue<E>
+it adaptor List interface to Queue interface
