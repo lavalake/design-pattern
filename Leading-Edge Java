@@ -1,0 +1,4 @@
+http://www.artima.com/lejava/articles/designprinciples.html
+Program to an interface, not an implementation
+In Java when you add a new method to an interface, you break all your clients. 
+When you have an abstract class, you can add a new method and provide a default implementation in it
