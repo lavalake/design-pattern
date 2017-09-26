@@ -9,3 +9,6 @@ usually the adaptor will exptend the target interface and implement the source i
 For example, the LinkedList class
 LinkedList<E> extends AbstractSequentiallist<E> implements List<E>, Deque<E>, Queue<E>
 it adaptor List interface to Queue interface
+
+Using a deque to implement a stack or queue is an
+example of the adaptor pattern
