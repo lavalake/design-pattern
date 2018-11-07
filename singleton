@@ -1,0 +1,77 @@
+https://www.javaworld.com/article/2073352/core-java/core-java-simply-singleton.html
+Example 1. The classic singleton
+public class ClassicSingleton {
+   private static ClassicSingleton instance = null;
+   protected ClassicSingleton() {
+      // Exists only to defeat instantiation.
+   }
+   public static ClassicSingleton getInstance() {
+      if(instance == null) {
+         instance = new ClassicSingleton();
+      }
+      return instance;
+   }
+}
+
+Second, notice that ClassicSingleton implements a protected constructor so clients cannot instantiate ClassicSingleton instances; however, you may be surprised to discover that the following code is perfectly legal:
+
+public class SingletonInstantiator { 
+  public SingletonInstantiator() { 
+   ClassicSingleton instance = ClassicSingleton.getInstance();
+ClassicSingleton anotherInstance =
+new ClassicSingleton();
+       ... 
+  } 
+}
+The answer is that protected constructors can be called by subclasses and by other classes in the same package.
+
+This dilemma has two solutions: You can make the ClassicSingleton constructor private so that only ClassicSingleton() methods call it;
+however, that means ClassicSingleton cannot be subclassed. 
+The other solution is to put your singleton class in an explicit package, so classes in other packages 
+(including the default package) cannot instantiate singleton instances
+
+A third interesting point about ClassicSingleton: it's possible to have multiple singleton instances if classes loaded 
+by different classloaders access a singleton. That scenario is not so far-fetched; for example, some servlet containers
+use distinct classloaders for each servlet, so if two servlets access a singleton, they will each have their own instance
+
+Fourth, if ClassicSingleton implements the java.io.Serializable interface, the class's instances can be serialized and 
+deserialized. However, if you serialize a singleton object and subsequently deserialize that object more than once, 
+you will have multiple singleton instances
+
+A performance enhancement
+In search of a performance enhancement, you might choose to rewrite the getInstance() method like this:
+
+public static Singleton getInstance() {
+   if(singleton == null) {
+      synchronized(Singleton.class) { 
+         singleton = new Singleton();
+      }
+   }
+   return singleton;
+}
+
+Double-checked locking
+Double-checked locking is a technique that, at first glance, appears to make lazy instantiation thread-safe. 
+That technique is illustrated in the following code fragment:
+
+public static Singleton getInstance() {
+  if(singleton == null) {
+     synchronized(Singleton.class) {
+       if(singleton == null) {
+         singleton = new Singleton();
+       }
+    }
+  }
+  return singleton;
+}
+
+Example 7. A simple singleton
+public class Singleton {
+   public final static Singleton INSTANCE = new Singleton();
+   private Singleton() {
+         // Exists only to defeat instantiation.
+      }
+}
+The preceding singleton implementation is thread-safe because static member variables created when declared are guaranteed
+to be created the first time they are accessed. You get a thread-safe implementation that automatically employs lazy 
+instantiation; 
