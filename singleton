@@ -75,3 +75,7 @@ public class Singleton {
 The preceding singleton implementation is thread-safe because static member variables created when declared are guaranteed
 to be created the first time they are accessed. You get a thread-safe implementation that automatically employs lazy 
 instantiation; 
+
+Lazy instantiation for Singleton patterns in Java
+https://www.javaworld.com/article/2077568/learn-java/java-tip-67--lazy-instantiation.html
+Lazy instantiation: dangerous in multithreaded applications
